@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExerciseView: View {
+struct ExerciseListView: View {
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         NavigationStack {
@@ -21,6 +21,6 @@ struct ExerciseView: View {
 
 #Preview {
     NavigationStack {
-        ExerciseView()
+        ExerciseListView()
     }
 }
