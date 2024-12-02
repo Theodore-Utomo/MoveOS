@@ -6,13 +6,58 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct ExerciseAddView: View {
+    @FirestoreQuery(collectionPath: "exercises") var exercises: [Exercise]
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var exerciseVM = ExerciseViewModel()
+    @State private var searchText = ""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            VStack {
+                TextField("Search Exercises", text: $searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .onChange(of: searchText) {
+                        Task {
+                            await exerciseVM.searchExercises(query: searchText)
+                        }
+                    }
+                List {
+                    ForEach(exerciseVM.searchedExercises) { searchedExercise in
+                        Button {
+                            Task {
+                                await ExerciseViewModel.addExerciseToFirestore(searchedExercise: searchedExercise)
+                                dismiss()
+                            }
+                        } label: {
+                            Text(searchedExercise.name)
+                                .foregroundStyle(.primary)
+                        }
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Back") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+        .navigationTitle("Select an Exercises")
+        .task {
+            await exerciseVM.searchExercises(query: "hammer")
+        }
     }
 }
 
 #Preview {
-    ExerciseAddView()
+    NavigationStack {
+        ExerciseAddView()
+    }
 }

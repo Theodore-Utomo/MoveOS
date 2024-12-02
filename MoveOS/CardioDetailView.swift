@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct CardioDetailView: View {
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            Text("This is the Cardio Detail View")
+            Text("Implement User Interface for editing a cardio session")
+            //TODO: Implement Cardio Session
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Cancel") { dismiss() }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Save") {
+                            
+                        }
+                    }
+                }
+        }
     }
 }
 

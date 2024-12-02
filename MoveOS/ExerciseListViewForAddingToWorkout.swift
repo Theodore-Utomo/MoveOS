@@ -6,13 +6,53 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct ExerciseListViewForAddingToWorkout: View {
+    @FirestoreQuery(collectionPath: "exercises") var exercises: [Exercise]
+    
+    @Environment(\.dismiss) private var dismiss
+    @Binding var weight: Weight
+    
+    @State private var sheetIsPresented = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List {
+                ForEach(exercises) { exercise in
+                    Button {
+                        if let exerciseID = exercise.id, !weight.exerciseIDs.contains(exerciseID) {
+                            Task {
+                                weight.exerciseIDs.append(exerciseID)
+                                if let updatedWeight = await WeightViewModel.saveWorkout(weight: weight) {
+                                    weight = updatedWeight
+                                }
+                                dismiss()
+                            }
+                        }
+                    } label: {
+                        Text(exercise.name)
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Add Exercise") {
+                        sheetIsPresented.toggle()
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $sheetIsPresented) {
+            ExerciseAddView()
+        }
+        .navigationTitle("Your Exercises")
     }
 }
 
 #Preview {
-    ExerciseListViewForAddingToWorkout()
+    ExerciseListViewForAddingToWorkout(weight: .constant(Weight()))
 }

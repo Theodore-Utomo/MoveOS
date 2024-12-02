@@ -7,57 +7,51 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
 
 struct MainView: View {
+    @FirestoreQuery(collectionPath: "weight") var workouts: [Weight]
+    
     @Environment(\.dismiss) private var dismiss
     
-    let cardioExercises = ["Running", "Swimming", "Jumping Jacks", "Cycling", "Rowing", "Stair Climbing", "Elliptical"]
-    let weightExercises = ["Chest", "Legs", "Back", "Arms"]
-    
+    @State private var weightSheetIsPresented = false
+        
     var body: some View {
         NavigationStack {
             VStack {
                 List {
-                    Section(header: Text("Workouts - Cardio")) {
-                        Button("View All Cardio Workouts") {
-                            //TODO: Add Cardio Exercise Sheet
-                        }
-                        ForEach(cardioExercises.prefix(4), id: \.self) { exercise in
-                            NavigationLink {
-                                // Destination view
-                            } label: {
-                                Text(exercise)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .foregroundStyle(.primary)
-                            }
-                        }
-                        Button("Add Cardio Session") {
-                            // TODO: Add Cardio Exercise
-                        }
-                    }
-                    
-                    Section(header: Text("Workouts - Weights")) {
-                        Button("View All Weightlifting Workouts") {
-                            //TODO: Add WeightList Sheet
-                        }
-                        ForEach(weightExercises.prefix(4), id: \.self) { exercise in
-                            NavigationLink {
-                                // Destination view
-                            } label: {
-                                Text(exercise)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .foregroundStyle(.primary)
-                            }
-                        }
-                        Button("Add Workout") {
-                            // TODO: Add Weight Exercise
-                        }
-                    }
-                    //TODO: Implement Real Data
                     NavigationLink {
-                        ExerciseView()
+                        ExerciseListView()
                     } label: {
                         Text("My Exercises")
+                    }
+                    
+                    Section {
+                        NavigationLink {
+                            WeightListView()
+                        } label: {
+                            Text("View All Weightlifting Workouts")
+                                .bold()
+                        }
+                        
+                        Button("Add New Workout") {
+                            weightSheetIsPresented.toggle()
+                        }
+                        
+                        ForEach(workouts) { workout in
+                            NavigationLink {
+                                WeightDetailView(weight: workout)
+                            } label: {
+                                Text(workout.workoutName)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .foregroundStyle(.primary)
+                            }
+                        }
+                        .onDelete { indexSet in
+                            deleteWorkout(at: indexSet)
+                        }
+                    } header: {
+                        Text("Workouts - Weights")
                     }
                 }
             }
@@ -74,12 +68,26 @@ struct MainView: View {
                     }
                 }
             }
-            
         }
         .navigationTitle("Your Movements")
         .navigationBarBackButtonHidden()
+        .sheet(isPresented: $weightSheetIsPresented) {
+            NavigationStack {
+                WeightDetailView(weight: Weight())
+            }
+        }
+    }
+    
+    private func deleteWorkout(at indexSet: IndexSet) {
+        indexSet.forEach { index in
+            let workout = workouts[index]
+            Task {
+                await WeightViewModel.deleteWorkout(weight: workout)
+            }
+        }
     }
 }
+
 
 #Preview {
     NavigationStack {
