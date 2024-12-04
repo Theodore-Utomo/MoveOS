@@ -9,22 +9,22 @@ import Foundation
 import FirebaseFirestore
 
 @Observable
-class WeightViewModel {
-    static func saveWorkout(weight: Weight) async -> Weight? {
+class WorkoutViewModel {
+    static func saveWorkout(workout: Workout) async -> Workout? {
         let exercisePath = "weight"
         let db = Firestore.firestore()
         
         do {
-            if let id = weight.id {
+            if let id = workout.id {
                 // Update existing workout
-                try db.collection(exercisePath).document(id).setData(from: weight)
+                try db.collection(exercisePath).document(id).setData(from: workout)
                 print("Workout updated successfully")
-                return weight
+                return workout
             } else {
                 // Add a new workout
-                let docRef = try db.collection(exercisePath).addDocument(from: weight)
+                let docRef = try db.collection(exercisePath).addDocument(from: workout)
                 print("New workout added successfully with ID: \(docRef.documentID)")
-                let updatedWeight = weight
+                let updatedWeight = workout
                 updatedWeight.id = docRef.documentID // Assign Firestore ID to the weight
                 return updatedWeight
             }
@@ -34,9 +34,9 @@ class WeightViewModel {
         }
     }
     
-    static func deleteWorkout(weight: Weight) async {
+    static func deleteWorkout(workout: Workout) async {
         let db = Firestore.firestore()
-        guard let id = weight.id else {
+        guard let id = workout.id else {
             print("No workout id")
             return
         }
@@ -48,5 +48,22 @@ class WeightViewModel {
                 print("Error: Could not delete document \(error.localizedDescription)")
             }
         }
+    }
+    
+    static func deleteExerciseFromWorkout(workout: Workout, exerciseID: String) async -> Workout? {
+        guard workout.id != nil else {
+            print("No workout id found.")
+            return nil
+        }
+        
+        // Remove the exerciseID from the list of exerciseIDs
+        if let index = workout.exerciseIDs.firstIndex(of: exerciseID) {
+            workout.exerciseIDs.remove(at: index)
+        } else {
+            print("Exercise ID not found in the workout.")
+            return nil
+        }
+        
+        return await saveWorkout(workout: workout)
     }
 }

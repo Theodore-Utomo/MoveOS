@@ -10,40 +10,72 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct MainView: View {
-    @FirestoreQuery(collectionPath: "weight") var workouts: [Weight]
-    
+    @FirestoreQuery(collectionPath: "weight") var workouts: [Workout]
     @Environment(\.dismiss) private var dismiss
+    @State private var workoutSheetIsPresented = false
     
-    @State private var weightSheetIsPresented = false
-        
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Your Movements")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.horizontal)
+                    
+                    Text("Track your progress and keep improving.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal)
+                }
                 List {
-                    NavigationLink {
-                        ExerciseListView()
-                    } label: {
+                    Section {
+                        NavigationLink {
+                            ExerciseListView()
+                        } label: {
+                            HStack {
+                                Image(systemName: "figure.walk")
+                                    .foregroundStyle(.blue)
+                                Text("View My Exercises")
+                                    .font(.body)
+                            }
+                        }
+                    } header: {
                         Text("My Exercises")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
                     }
                     
                     Section {
                         NavigationLink {
-                            WeightListView()
+                            WorkoutListView()
                         } label: {
-                            Text("View All Weightlifting Workouts")
-                                .bold()
+                            HStack {
+                                Image(systemName: "dumbbell")
+                                    .foregroundStyle(.green)
+                                Text("View All Workouts")
+                                    .font(.body)
+                                    .bold()
+                            }
                         }
-                        
-                        Button("Add New Workout") {
-                            weightSheetIsPresented.toggle()
+                        Button {
+                            workoutSheetIsPresented.toggle()
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundStyle(.orange)
+                                Text("Add New Workout")
+                                    .font(.body)
+                            }
                         }
                         
                         ForEach(workouts) { workout in
                             NavigationLink {
-                                WeightDetailView(weight: workout)
+                                WorkoutDetailView(workout: workout)
                             } label: {
+                                
                                 Text(workout.workoutName)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.headline)
                                     .foregroundStyle(.primary)
                             }
                         }
@@ -52,12 +84,17 @@ struct MainView: View {
                         }
                     } header: {
                         Text("Workouts - Weights")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
                     }
                 }
+                .listStyle(.insetGrouped)
             }
+            .padding(.top, 20)
+            .background(Color(UIColor.systemGroupedBackground).ignoresSafeArea())
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Sign Out") {
+                    Button {
                         do {
                             try Auth.auth().signOut()
                             print("Sign out successfull")
@@ -65,15 +102,17 @@ struct MainView: View {
                         } catch {
                             print("Sign out unsuccessful. ERROR: \(error.localizedDescription)")
                         }
+                    } label: {
+                        Text("Sign Out")
+                            .foregroundStyle(.red)
                     }
                 }
             }
         }
-        .navigationTitle("Your Movements")
         .navigationBarBackButtonHidden()
-        .sheet(isPresented: $weightSheetIsPresented) {
+        .sheet(isPresented: $workoutSheetIsPresented) {
             NavigationStack {
-                WeightDetailView(weight: Weight())
+                WorkoutDetailView(workout: Workout())
             }
         }
     }
@@ -82,7 +121,7 @@ struct MainView: View {
         indexSet.forEach { index in
             let workout = workouts[index]
             Task {
-                await WeightViewModel.deleteWorkout(weight: workout)
+                await WorkoutViewModel.deleteWorkout(workout: workout)
             }
         }
     }

@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 
-class Weight: ObservableObject, Codable, Identifiable {
+class Workout: ObservableObject, Codable, Identifiable {
     @DocumentID var id: String?
     var workoutName: String = ""
     var exerciseIDs: [String] = []

@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
+
 @Observable
 class ExerciseViewModel {
     var searchedExercises: [SearchedExercise] = []
@@ -57,6 +58,24 @@ class ExerciseViewModel {
     }
     
     static func addExerciseToFirestore(searchedExercise: SearchedExercise) async {
+        let db = Firestore.firestore()
+        let exerciseCollection = db.collection("exercises")
+        
+        // Check if an exercise with the same name already exists
+        do {
+            let querySnapshot = try await exerciseCollection
+                .whereField("name", isEqualTo: searchedExercise.name)
+                .getDocuments()
+            
+            if !querySnapshot.isEmpty {
+                print("An exercise with the name '\(searchedExercise.name)' already exists in the database.")
+                return
+            }
+        } catch {
+            print("Error checking for existing exercise: \(error.localizedDescription)")
+            return
+        }
+        
         let newExercise = Exercise(
             id: nil,
             name: searchedExercise.name,
@@ -65,10 +84,8 @@ class ExerciseViewModel {
             instructions: searchedExercise.instructions
         )
         
-        
         let _ = await saveExercise(exercise: newExercise)
         print("Exercise successfully added to Firestore!")
-        
     }
     
     func searchExercises(query: String) async {
@@ -115,9 +132,42 @@ class ExerciseViewModel {
         if newExercise.sets == nil {
             newExercise.sets = []
         }
-        newExercise.sets?.append(set) 
+        newExercise.sets?.append(set)
         let _ = await saveExercise(exercise: newExercise)
     }
+    
+    struct GraphDataPoint: Identifiable {
+        let id = UUID() // Generate a unique ID for each data point
+        let x: Int
+        let y: Double
+    }
+    
+    static func generateGraphDataForVolume(for exercise: Exercise) -> [GraphDataPoint] {
+        guard let sets = exercise.sets else { return [] }
+        return sets.enumerated().map { (index, set) in
+            let totalVolume = set.weight * Double(set.reps)
+            return GraphDataPoint(x: index, y: totalVolume)
+        }
+    }
+    
+    static func generateAverageRepsData(for exercise: Exercise) -> [GraphDataPoint] {
+        guard let sets = exercise.sets else { return [] }
 
-   
+        // Group sets by weight
+        let groupedByWeight = Dictionary(grouping: sets, by: { $0.weight })
+
+        var averageRepsPerWeight: [GraphDataPoint] = []
+        for (weight, sets) in groupedByWeight {
+            let totalReps = sets.reduce(0) { $0 + $1.reps }
+            let averageReps = Double(totalReps) / Double(sets.count)
+            averageRepsPerWeight.append(GraphDataPoint(x: Int(weight), y: averageReps))
+        }
+
+        let sortedData = averageRepsPerWeight.sorted { $0.x < $1.x }
+        
+        let limitedData = sortedData.prefix(5)
+        
+        return Array(limitedData)
+    }
 }
+
