@@ -60,9 +60,12 @@ struct AddSetView: View {
             }
             .onAppear {
                 if let set = setToEdit {
-                    weight = "\(set.weight)"
-                    reps = "\(set.reps)"
-                }
+                        weight = "\(set.weight)"
+                        reps = "\(set.reps)"
+                    } else {
+                        weight = ""
+                        reps = ""
+                    }
             }
         }
         .alert("Invalid Input", isPresented: $showAlert) {
@@ -144,8 +147,8 @@ struct ExerciseDetailView: View {
                 
                 Divider()
                 
-                List(exercise.sets?.reversed() ?? []) { set in
-                    VStack(alignment: .leading, spacing: 5) {
+                List(exercise.sets?.reversed() ?? [], id: \.id) { set in
+                    LazyVStack(alignment: .leading, spacing: 5) {
                         HStack {
                             Text("Weight:")
                             Spacer()
@@ -188,8 +191,9 @@ struct ExerciseDetailView: View {
                             .font(.headline)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
+                            .buttonStyle(.borderedProminent)
+                            .tint(.blue)
+                            .foregroundStyle(.white)
                             .cornerRadius(10)
                             .padding(.horizontal)
                     }
@@ -200,7 +204,7 @@ struct ExerciseDetailView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         setToEdit = nil
-                        setSheetIsPresented.toggle()
+                        setSheetIsPresented = true
                     } label: {
                         HStack {
                             Text("Add Set")
@@ -212,8 +216,11 @@ struct ExerciseDetailView: View {
             .sheet(isPresented: $showGraphSheet) {
                 GraphView(exercise: exercise)
             }
+            .sheet(item: $setToEdit) { set in // Cbecks if setToEdit is nil, don't use isPresented for this, doesn't work for some reason
+                AddSetView(exercise: $exercise, weightUnit: $weightUnit, setToEdit: set)
+            }
             .sheet(isPresented: $setSheetIsPresented) {
-                AddSetView(exercise: $exercise, weightUnit: $weightUnit, setToEdit: setToEdit)
+                AddSetView(exercise: $exercise, weightUnit: $weightUnit, setToEdit: nil)
             }
             .alert("Instructions", isPresented: $showInstructionsPopup) {
                 Button("Close", role: .cancel) { }

@@ -40,7 +40,7 @@ struct ExerciseAddView: View {
                         Spacer()
                         Text("No exercises found.")
                             .font(.headline)
-                            .foregroundStyle(.gray)
+                            .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                         Spacer()
                     }
@@ -55,8 +55,8 @@ struct ExerciseAddView: View {
                             } label: {
                                 Text("\(searchedExercise.name)")
                                     .font(.headline)
-                                    .foregroundStyle(.black)
                             }
+                            .foregroundStyle(.primary)
                         }
                     }
                     .listStyle(.insetGrouped)
@@ -67,7 +67,7 @@ struct ExerciseAddView: View {
                 } label: {
                     Text("Don't see the exercise you want? \nCreate a new exercise")
                         .font(.headline)
-                        .foregroundColor(.blue)
+                        .foregroundStyle(.blue)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color(UIColor.systemGroupedBackground))

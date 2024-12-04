@@ -100,7 +100,7 @@ class ExerciseViewModel {
         }
         
         var request = URLRequest(url: url)
-        request.setValue("78TjuTUcugi4mUfazdmsMQ==TSWQ5aF7IEHjXFkq", forHTTPHeaderField: "X-Api-Key")
+        request.setValue("78TjuTUcugi4mUfazdmsMQ==TSWQ5aF7IEHjXFkq", forHTTPHeaderField: "X-Api-Key") // API Keys
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
@@ -137,7 +137,7 @@ class ExerciseViewModel {
     }
     
     struct GraphDataPoint: Identifiable {
-        let id = UUID() // Generate a unique ID for each data point
+        let id = UUID()
         let x: Int
         let y: Double
     }

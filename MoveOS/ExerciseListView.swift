@@ -81,7 +81,7 @@ struct ExerciseRowView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(exercise.name)
                     .font(.headline)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.primary)
                 
                 Text(exercise.muscle.capitalized)
                     .font(.subheadline)

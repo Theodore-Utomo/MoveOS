@@ -29,18 +29,18 @@ struct GraphView: View {
                         Chart(Array(exercise.sets ?? []).enumerated().map { $0 }, id: \.offset) { index, set in
                             LineMark(
                                 x: .value("Set Index", index),
-                                y: .value("Weight", set.weight)
+                                y: .value("Weight (Lbs)", set.weight)
                             )
                         }
                         .chartXAxisLabel("Set Index", position: .bottom)
-                        .chartYAxisLabel("Weight", position: .leading)
+                        .chartYAxisLabel("Weight (Lbs)", position: .leading)
                         .frame(width: 300, height: 300)
                         .padding(.bottom)
                         
                         Text("Average Reps Per Weight")
                         Chart(ExerciseViewModel.generateAverageRepsData(for: exercise)) { dataPoint in
                             BarMark(
-                                x: .value("Weight", dataPoint.x),
+                                x: .value("Weight (Lbs)", dataPoint.x),
                                 y: .value("Average Reps", dataPoint.y)
                             )
                         }

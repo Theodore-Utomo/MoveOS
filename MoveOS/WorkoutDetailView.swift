@@ -17,6 +17,7 @@ struct WorkoutDetailView: View {
     @State private var workoutName: String = ""
     @State var workout: Workout
     @State private var exercises: [String] = []
+    @State private var alertIsPresented: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -70,16 +71,25 @@ struct WorkoutDetailView: View {
                     Button("Back") { dismiss() }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Save") {
-                        workout.workoutName = workoutName
-                        Task {
-                            if let updatedWorkout = await WorkoutViewModel.saveWorkout(workout: workout) {
-                                workout = updatedWorkout
+                    Button("Save Name") {
+                        if workoutName == "" {
+                            alertIsPresented.toggle()
+                        } else {
+                            workout.workoutName = workoutName
+                            Task {
+                                if let updatedWorkout = await WorkoutViewModel.saveWorkout(workout: workout) {
+                                    workout = updatedWorkout
+                                }
+                                dismiss()
                             }
-                            dismiss()
                         }
                     }
                 }
+            }
+            .alert("Workout Name is Empty", isPresented: $alertIsPresented) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Please enter a name for your workout.")
             }
             .onChange(of: workout.exerciseIDs) {
                 exercises = workout.exerciseIDs

@@ -20,7 +20,7 @@ struct LoginView: View {
     @State private var buttonsDisabled = true
     @State private var presentSheet = false
     @FocusState private var focusField: Field?
-    
+    // Made with Prof. G's Login View template
     var body: some View {
         VStack {
             Image(systemName: "dumbbell.fill")

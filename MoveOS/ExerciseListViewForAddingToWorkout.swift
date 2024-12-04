@@ -58,6 +58,7 @@ struct ExerciseListViewForAddingToWorkout: View {
                                 } label: {
                                     ExerciseRowView(exercise: exercise)
                                 }
+                                .foregroundStyle(.primary)
                             }
                         }
                         .listStyle(.insetGrouped)

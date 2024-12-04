@@ -91,8 +91,8 @@
 				044EA48E2CF5B2E200FAAF35 /* Workout.swift */,
 				044EA4912CF5B2E200FAAF35 /* WorkoutViewModel.swift */,
 				044EA48D2CF5B2E200FAAF35 /* MoveOSApp.swift */,
-				04B5EDFF2CFEEEB600C0299C /* GraphView.swift */,
 				048D5CDE2CFFD04A005F2297 /* Preference.swift */,
+				04B5EDFF2CFEEEB600C0299C /* GraphView.swift */,
 				044EA48B2CF5B2E200FAAF35 /* LoginView.swift */,
 				044EA48C2CF5B2E200FAAF35 /* MainView.swift */,
 			);
