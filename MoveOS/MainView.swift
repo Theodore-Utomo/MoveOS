@@ -29,6 +29,7 @@ struct MainView: View {
                         .padding(.horizontal)
                 }
                 List {
+                    
                     Section {
                         NavigationLink {
                             ExerciseListView()
@@ -70,18 +71,21 @@ struct MainView: View {
                         }
                         
                         ForEach(workouts) { workout in
-                            NavigationLink {
-                                WorkoutDetailView(workout: workout)
-                            } label: {
-                                
-                                Text(workout.workoutName)
-                                    .font(.headline)
-                                    .foregroundStyle(.primary)
+                            LazyVStack(alignment: .leading) {
+                                NavigationLink {
+                                    WorkoutDetailView(workout: workout)
+                                } label: {
+                                    
+                                    Text(workout.workoutName)
+                                        .font(.headline)
+                                        .foregroundStyle(.primary)
+                                }
                             }
                         }
-                        .onDelete { indexSet in
-                            deleteWorkout(at: indexSet)
+                        .onDelete { index in
+                            deleteWorkout(at: index)
                         }
+                        
                     } header: {
                         Text("Workouts - Weights")
                             .font(.headline)
@@ -117,8 +121,8 @@ struct MainView: View {
         }
     }
     
-    private func deleteWorkout(at indexSet: IndexSet) {
-        indexSet.forEach { index in
+    private func deleteWorkout(at index: IndexSet) {
+        index.forEach { index in
             let workout = workouts[index]
             Task {
                 await WorkoutViewModel.deleteWorkout(workout: workout)

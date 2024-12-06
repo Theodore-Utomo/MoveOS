@@ -176,7 +176,6 @@ struct ExerciseDetailView: View {
                     .swipeActions {
                         Button("Edit", role: .none) {
                             setToEdit = set
-                            setSheetIsPresented.toggle()
                         }
                         .tint(.blue)
                     }
@@ -193,8 +192,8 @@ struct ExerciseDetailView: View {
                             .frame(maxWidth: .infinity)
                             .buttonStyle(.borderedProminent)
                             .tint(.blue)
-                            .foregroundStyle(.white)
-                            .cornerRadius(10)
+                            .foregroundStyle(.primary)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding(.horizontal)
                     }
                 }

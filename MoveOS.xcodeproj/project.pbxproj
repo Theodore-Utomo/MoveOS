@@ -24,6 +24,7 @@
 		044EA4EE2CF6DEFB00FAAF35 /* ExerciseAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EA4ED2CF6DEFB00FAAF35 /* ExerciseAddView.swift */; };
 		048D5CDF2CFFD04A005F2297 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D5CDE2CFFD04A005F2297 /* Preference.swift */; };
 		04AC50C22CFD730800F09B90 /* ExerciseListViewForAddingToWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC50C12CFD730800F09B90 /* ExerciseListViewForAddingToWorkout.swift */; };
+		04AEED5F2D02461500B8C419 /* WorkoutGenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AEED5E2D02461500B8C419 /* WorkoutGenerateView.swift */; };
 		04B33F672CF57C78001085D2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 04B33F662CF57C78001085D2 /* FirebaseAuth */; };
 		04B33F692CF57C78001085D2 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 04B33F682CF57C78001085D2 /* FirebaseFirestore */; };
 		04B33F6B2CF57C78001085D2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 04B33F6A2CF57C78001085D2 /* FirebaseStorage */; };
@@ -46,8 +47,10 @@
 		044EA4A02CF5B6BA00FAAF35 /* ExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewModel.swift; sourceTree = "<group>"; };
 		044EA4EB2CF5BF1600FAAF35 /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
 		044EA4ED2CF6DEFB00FAAF35 /* ExerciseAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAddView.swift; sourceTree = "<group>"; };
+		0477E1B62D02412800CAD6B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		048D5CDE2CFFD04A005F2297 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		04AC50C12CFD730800F09B90 /* ExerciseListViewForAddingToWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListViewForAddingToWorkout.swift; sourceTree = "<group>"; };
+		04AEED5E2D02461500B8C419 /* WorkoutGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutGenerateView.swift; sourceTree = "<group>"; };
 		04B33F522CF57B3A001085D2 /* MoveOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoveOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B5EDFF2CFEEEB600C0299C /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,17 +80,19 @@
 		044EA4922CF5B2E200FAAF35 /* MoveOS */ = {
 			isa = PBXGroup;
 			children = (
+				0477E1B62D02412800CAD6B5 /* Info.plist */,
 				044EA4852CF5B2E200FAAF35 /* Preview Content */,
 				044EA4862CF5B2E200FAAF35 /* Assets.xcassets */,
 				044EA48A2CF5B2E200FAAF35 /* GoogleService-Info.plist */,
-				044EA4892CF5B2E200FAAF35 /* ExerciseListView.swift */,
 				044EA4882CF5B2E200FAAF35 /* Exercise.swift */,
+				044EA4892CF5B2E200FAAF35 /* ExerciseListView.swift */,
 				044EA4EB2CF5BF1600FAAF35 /* ExerciseDetailView.swift */,
 				044EA4ED2CF6DEFB00FAAF35 /* ExerciseAddView.swift */,
 				044EA4A02CF5B6BA00FAAF35 /* ExerciseViewModel.swift */,
 				04AC50C12CFD730800F09B90 /* ExerciseListViewForAddingToWorkout.swift */,
 				044EA48F2CF5B2E200FAAF35 /* WorkoutDetailView.swift */,
 				044EA4902CF5B2E200FAAF35 /* WorkoutListView.swift */,
+				04AEED5E2D02461500B8C419 /* WorkoutGenerateView.swift */,
 				044EA48E2CF5B2E200FAAF35 /* Workout.swift */,
 				044EA4912CF5B2E200FAAF35 /* WorkoutViewModel.swift */,
 				044EA48D2CF5B2E200FAAF35 /* MoveOSApp.swift */,
@@ -200,6 +205,7 @@
 				044EA4942CF5B2E200FAAF35 /* Exercise.swift in Sources */,
 				044EA4952CF5B2E200FAAF35 /* ExerciseListView.swift in Sources */,
 				04B5EE002CFEEEB700C0299C /* GraphView.swift in Sources */,
+				04AEED5F2D02461500B8C419 /* WorkoutGenerateView.swift in Sources */,
 				044EA4EE2CF6DEFB00FAAF35 /* ExerciseAddView.swift in Sources */,
 				044EA4962CF5B2E200FAAF35 /* LoginView.swift in Sources */,
 				044EA4972CF5B2E200FAAF35 /* MainView.swift in Sources */,
@@ -346,9 +352,9 @@
 				DEVELOPMENT_TEAM = DK8T7X4Q5B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoveOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -375,9 +381,9 @@
 				DEVELOPMENT_TEAM = DK8T7X4Q5B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoveOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -11,6 +11,7 @@ import FirebaseFirestore
 struct WorkoutListView: View {
     @FirestoreQuery(collectionPath: "weight") var workouts: [Workout]
     @State private var workoutSheetIsPresented = false
+    @State private var generateWorkoutSheetIsPresented = false
     
     var body: some View {
         NavigationStack {
@@ -61,6 +62,18 @@ struct WorkoutListView: View {
                     }
                     .listStyle(InsetGroupedListStyle())
                 }
+                
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button("Generate Workout") {
+                        generateWorkoutSheetIsPresented.toggle()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    Spacer()
+                }
             }
             .background(Color(UIColor.systemGroupedBackground).ignoresSafeArea())
             .toolbar {
@@ -80,6 +93,11 @@ struct WorkoutListView: View {
             .sheet(isPresented: $workoutSheetIsPresented) {
                 NavigationStack {
                     WorkoutDetailView(workout: Workout())
+                }
+            }
+            .sheet(isPresented: $generateWorkoutSheetIsPresented) {
+                NavigationStack {
+                    WorkoutGenerateView()
                 }
             }
         }

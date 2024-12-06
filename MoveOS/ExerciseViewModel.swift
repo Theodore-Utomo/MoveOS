@@ -19,7 +19,7 @@ class ExerciseViewModel {
         let exercisePath = "exercises"
         let db = Firestore.firestore()
         
-        if let id = exercise.id { //If true the place exists
+        if let id = exercise.id { //If true the exercise exists
             do {
                 try db.collection(exercisePath).document(id).setData(from: exercise)
                 print("Cool emoji. Exercise updated successfully")
@@ -28,7 +28,7 @@ class ExerciseViewModel {
                 print("Angry emoji. Error: \(error.localizedDescription)")
                 return id
             }
-        } else { //If place doesn't exist - new document to be added to the places collection
+        } else { //If place doesn't exist - new document to be added to the exercise collection
             do {
                 let docRef = try db.collection(exercisePath).addDocument(from: exercise)
                 print("Happy emoji. Data added successfully")

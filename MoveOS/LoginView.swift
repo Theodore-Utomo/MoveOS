@@ -27,6 +27,7 @@ struct LoginView: View {
                 .resizable()
                 .scaledToFit()
                 .padding()
+                .foregroundStyle(.primary)
             
             Group {
                 TextField("E-mail", text: $email)

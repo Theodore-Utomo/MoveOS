@@ -21,7 +21,7 @@ struct Set: Codable, Identifiable {
         self.date = date
     }
 }
-
+// IMPORTANT DO NOT CHANGE INTO STRUCT, DOES NOT WORK FOR SOME REASON
 class Exercise: ObservableObject, Codable, Identifiable {
     @DocumentID var id: String?
     var name: String

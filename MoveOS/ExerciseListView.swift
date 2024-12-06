@@ -50,7 +50,7 @@ struct ExerciseListView: View {
                 .listStyle(.insetGrouped)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("Cancel") { dismiss() }
+                        Button("Back") { dismiss() }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button{
