@@ -100,7 +100,12 @@ class ExerciseViewModel {
         }
         
         var request = URLRequest(url: url)
-        request.setValue("78TjuTUcugi4mUfazdmsMQ==TSWQ5aF7IEHjXFkq", forHTTPHeaderField: "X-Api-Key") // API Keys
+        
+        if let apiKey = ProcessInfo.processInfo.environment["API_NINJA_KEY"] {
+            request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
+        } else {
+            print("Could not get API Key")
+        }
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
